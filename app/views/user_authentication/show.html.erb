@@ -1,0 +1,107 @@
+
+<h1><%= @current_user.username %></h1>
+
+<dl>
+  <dt>Private</dt>
+  <dd><%= @current_user.private %></dd>
+
+  <dt>Followers</dt>
+  <dd><%= @current_user.id %></dd>
+
+  <div>
+    <form action="/insert_follow_request" method="post">
+      <input type="hidden" name="query_recipient_id" value="<%= @current_user.id %>">
+      <button>
+        Follow
+      </button>
+    </form>
+
+  <dt>Following</dt>
+  <dd><%= @current_user.id %></dd>
+
+    <% if @current_user == @user_id %>
+  <dt>Edit user</dt>
+  <dd>
+    <form action="/modify_user/<%= @user.id %>" method="post">
+      <label for="browser_username">Username</label>
+      <input id="browser_username" type="text" name="query_username" placeholder="Enter a username..."
+        value="<%= @user.username %>">
+
+      <label for="browser_private">Private?</label>
+      <input id="browser_private" type="checkbox" name="query_private" >
+
+      <button>Update user</button>
+    </form>
+  </dd>
+</dl>
+  <% else %>
+       
+      <% end %>
+
+  <nav>
+  <ul>
+    <li>
+      <a href="/users/chi">Profile</a>
+    </li>
+    <li>
+      <a href="/users/chi/liked_photos">Liked photos</a>
+    </li>
+    <li>
+      <a href="/users/chi/feed">Feed</a>
+    </li>
+    <li>
+      <a href="/users/chi/discover">Discover</a>
+    </li>
+  </ul>
+</nav>
+
+<h2>Own photos (<%= @current_user.own_photos.count %>)</h2>
+
+<table border="1">
+  <tr>
+    <th>
+      Image
+    </th>
+
+    <th>
+      Owner
+    </th>
+
+    <th>
+      Caption
+    </th>
+
+    <th>
+      Posted
+    </th>
+
+    <th></th>
+  </tr>
+
+  <% @user.own_photos.each do |photo| %>
+  <tr>
+    <td>
+      <img src="<%= photo.image %>">
+    </td>
+
+    <td>
+      <%= photo.poster.username %>
+    </td>
+
+    <td>
+      <%= photo.caption %>
+    </td>
+
+    <td>
+      <%= photo.created_at %>
+    </td>
+    
+    <td>
+      <a href="/photos/<%= photo.id %>">
+        Show details
+      </a>
+    </td>
+  </tr>
+
+  <% end %>
+</table>
